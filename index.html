@@ -49,13 +49,10 @@ window.setInterval(save, 2000);
 });
 
 async function save() {
-        if (input.value.length > 0) {
-            cloudStorage.setItem(kay, input.value, (error, result) => {
-                info.innerHTML = !error && result ? '<span class="green">Saved<span>' : error;
-            });
-        }else {
-            info.innerHTML = '<span class="red">The Input is empty<span>';
-        }
+  getKeys((error, result) => {
+      str = !error && result ? "Все ключи" : error;
+      console.log(str);
+  });
 }
 </script>
 <body>
