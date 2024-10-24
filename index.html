@@ -9,15 +9,15 @@
 </head>
 <script>
   window.addEventListener('load', ()=> {
-
     const input = document.getElementById("input");
     const info = document.getElementById("info");
     const set = document.getElementById("set");
     const get = document.getElementById("get");
     const del = document.getElementById("del");
-    const keys = document.getElementById("keys");
+    const kays = document.getElementById("keys");
 
     const cloudStorage = window.Telegram.WebApp.CloudStorage;
+    const keys = await cloudStorage.getKeys();
 
     const kay = 'kay';
 
@@ -32,12 +32,9 @@
         }
     });
 
-    // keys.addEventListener('click', () =>{
-        // cloudStorage.getKeys((error, result) => {
-      // str = !error && result ? "Все ключи" : error;
-      // console.log(str);
-      // });
-    // });
+    kays.addEventListener('click', () =>{
+      console.log(keys);
+    });
 
     // Read key:value
     get.addEventListener('click', () =>{
