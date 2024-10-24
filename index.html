@@ -22,11 +22,11 @@
     const kay = 'kay';
 
     // Save or Update key:value
-    window,setInterval(save, 5000);
+    window.setInterval(save, 5000);
     async function save() {
         if (input.value.length > 0) {
             cloudStorage.setItem(kay, input.value, (error, result) => {
-                info.innerHTML = !error && result ? '<span class="green">Saved<span>' : error;
+                info.innerHTML = !error && result ? '<span class="green">Сохранил<span>' : error;
             });
         }else {
             info.innerHTML = '<span class="red">The Input is empty<span>';
