@@ -46,14 +46,13 @@ window.setInterval(save, 2000);
             info.innerHTML = !error && result ? '<span class="orange">Deleted<span>' : error;
         });
     });
-});
-
-async function save() {
+    async function save() {
   cloudStorage.getKeys((error, result) => {
       str = !error && result ? "Все ключи" : error;
       console.log(str);
   });
 }
+});
 </script>
 <body>
     <label for="input">Input: </label><input id="input" type="text">
