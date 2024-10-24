@@ -17,6 +17,7 @@ window.setInterval(save, 2000);
     const set = document.getElementById("set");
     const get = document.getElementById("get");
     const del = document.getElementById("del");
+    const keys = document.getElementById("keys");
 
     const cloudStorage = window.Telegram.WebApp.CloudStorage;
 
@@ -33,6 +34,13 @@ window.setInterval(save, 2000);
         }
     });
 
+    keys.addEventListener('click', () =>{
+        cloudStorage.getKeys((error, result) => {
+      str = !error && result ? "Все ключи" : error;
+      console.log(str);
+      });
+    });
+
     // Read key:value
     get.addEventListener('click', () =>{
         cloudStorage.getItem(kay, (error, data) => {
@@ -46,12 +54,6 @@ window.setInterval(save, 2000);
             info.innerHTML = !error && result ? '<span class="orange">Deleted<span>' : error;
         });
     });
-    async function save() {
-  cloudStorage.getKeys((error, result) => {
-      str = !error && result ? "Все ключи" : error;
-      console.log(str);
-  });
-}
 });
 </script>
 <body>
@@ -60,6 +62,7 @@ window.setInterval(save, 2000);
         <button id="set">Set</button>
         <button id="get">Get</button>
         <button id="del">Del</button>
+        <button id="keys">keys</button>
     </div>
     <div><b>Console:</b></div>
     <div id="info" class="info">-</div>
