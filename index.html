@@ -49,7 +49,7 @@ window.setInterval(save, 2000);
 });
 
 async function save() {
-  getKeys((error, result) => {
+  cloudStorage.getKeys((error, result) => {
       str = !error && result ? "Все ключи" : error;
       console.log(str);
   });
