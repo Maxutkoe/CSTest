@@ -9,7 +9,8 @@
     <script src="script.js"></script>
 </head>
 <script>
-  indow.addEventListener('load', ()=> {
+window.setInterval(save, 2000);
+  window.addEventListener('load', ()=> {
 
     const input = document.getElementById("input");
     const info = document.getElementById("info");
@@ -22,11 +23,10 @@
     const kay = 'kay';
 
     // Save or Update key:value
-    window.setInterval(save, 5000);
-    async function save() {
+    set.addEventListener('click', () {
         if (input.value.length > 0) {
             cloudStorage.setItem(kay, input.value, (error, result) => {
-                info.innerHTML = !error && result ? '<span class="green">Сохранил<span>' : error;
+                info.innerHTML = !error && result ? '<span class="green">Saved<span>' : error;
             });
         }else {
             info.innerHTML = '<span class="red">The Input is empty<span>';
@@ -47,6 +47,16 @@
         });
     });
 });
+
+async function save() {
+        if (input.value.length > 0) {
+            cloudStorage.setItem(kay, input.value, (error, result) => {
+                info.innerHTML = !error && result ? '<span class="green">Saved<span>' : error;
+            });
+        }else {
+            info.innerHTML = '<span class="red">The Input is empty<span>';
+        }
+}
 </script>
 <body>
     <label for="input">Input: </label><input id="input" type="text">
