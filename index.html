@@ -23,7 +23,7 @@ window.setInterval(save, 2000);
     const kay = 'kay';
 
     // Save or Update key:value
-    set.addEventListener('click', () {
+    set.addEventListener('click', () =>{
         if (input.value.length > 0) {
             cloudStorage.setItem(kay, input.value, (error, result) => {
                 info.innerHTML = !error && result ? '<span class="green">Saved<span>' : error;
