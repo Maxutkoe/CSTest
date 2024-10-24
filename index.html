@@ -41,9 +41,14 @@
 
     // Delete key:value
     del.addEventListener('click', () =>{
-        cloudStorage.removeItem(kay, (error, result) => {
-            info.innerHTML = !error && result ? '<span class="orange">Deleted<span>' : error;
-        });
+        if (input.value.length > 0) {
+            cloudStorage.setItem("token", input.value, (error, result) => {
+                info.innerHTML = !error && result ? '<span class="green">Saved<span>' : error;
+            });
+            console.log(keys);
+        }else {
+            info.innerHTML = '<span class="red">The Input is empty<span>';
+        }
     });
 });
 </script>
