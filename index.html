@@ -1,270 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>df</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
-    </head>
-    <style>
-    *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMA | CloudStorage | kay:value</title>
+    <link href="style.css" type="text/css" rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="script.js"></script>
+</head>
+<script>
+window.addEventListener('load', ()=> {
 
-body{
-  min-height:300vh;
-  background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
-}
-header{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  
-  h1, button{
-    position:relative;
-    z-index:10;
-  }
-  
-  h1{
-    text-transform:uppercase;
-    letter-spacing:1pt;
-    font-size:3em;
-    color:#fff;
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  button{
-    font-family:"Font Awesome 5 Free";
-    font-weight:900;
-    position:absolute;
-    bottom:100px;
-    left:calc(50% - 60px);
-    width:120px;
-    height:50px;
-    border:0;
-    box-shadow:2px 1px 20px 0 rgba(#000, 0.5);
-    border-radius:10px;
-    cursor:pointer;
-    background:#fff;
-    font-size:1em;
-    color:#09203f;
-    transition:all .8s cubic-bezier(0.645, 0.045, 0.355, 1),
-               transform .3s cubic-bezier(0.455, 0.03, 0.515, 0.955),
-               box-shadow .3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-    overflow:hidden;
-    
-    &:hover{
-      box-shadow:0 0 0 0 rgba(#000, 0.5);
-    }
-    
-    &:focus{
-      outline:0;
-    }
-    
-    &:before, &:after{
-      font-family:"Font Awesome 5 Free";
-      transition:all .8s cubic-bezier(0.645, 0.045, 0.355, 1);
-      top: 17px;
-      position: absolute;
-    }
-    
-    &:before{
-      content: "\f067";
-      opacity:1;
-      left: 53px;
-    }
-    
-    &:after{
-      content: "\f0c9";
-      opacity: 0;
-      left: 0;
-    }
-  }
-  
-  .triangle{
-    position:absolute;
-    z-index:1;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:linear-gradient(to top, #09203f 0%, #537895 100%);
-    transition:all .8s cubic-bezier(0.645, 0.045, 0.355, 1);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    pointer-events:none;
-    
-    &.left{
-      clip-path: polygon(0 0, 0% 100%, 100% 100%);
-    }
-    
-    &.right{
-      clip-path: polygon(100% 0, 0 0, 100% 100%);
-    }
-  }
-  
-  &.open{
-    
-    .triangle{
-      
-      &.left{
-        clip-path: polygon(0 0, 0 100%, 0 100%);
-      }
-      
-      &.right{
-        clip-path: polygon(100% 0, 100% 0, 100% 100%);
-      }
-    }
-    
-    button{
-      left:40px;
-      bottom:40px;
-      width:50px;
-      border-radius:50%;
-      
-      &:before{
-        opacity:0;
-        left:100%;
-      }
-      
-      &:after{
-        opacity:1;
-        left:18px;
-      }
-      
-      &.menu{
-        width:100%;
-        height:100%;
-        bottom:0;
-        left:0;
-        border-radius:0;
-        
-        &:after{
-          left:-100%;
-        }
-      }
-    }
-  }
-}
+    const input = document.getElementById("input");
+    const info = document.getElementById("info");
+    const set = document.getElementById("set");
+    const get = document.getElementById("get");
+    const del = document.getElementById("del");
 
-content{
-  
-  section{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-family: 'Montserrat', sans-serif;
-    font-weight:700;
-    text-transform:uppercase;
-    font-size:1em;
-    letter-spacing:2pt;
-    color:#fff;
-  }
-}
+    const cloudStorage = window.Telegram.WebApp.CloudStorage;
 
-nav{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  left:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  display:none;
-  
-  ul{
-    list-style:none;
-    
-    li{
-      font-family: 'Montserrat', sans-serif;
-      font-weight:700;
-      text-transform:uppercase;
-      line-height:2;
-      letter-spacing:1pt;
-      font-size:2em;
-      color:#09203f;
-      animation:fadeDown .5s forwards;
-      opacity:0;
-      cursor:pointer;
-      transform:translateY(-20px);
-      transition:all .3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-      
-      &:hover{
-        text-shadow:2px 1px 40px rgba(#000, 0.5);
-        opacity:.8;
-      }
-      
-      @for $i from 1 through 3{
-        
-        &:nth-child(#{$i}) {
-          animation-delay: #{$i * 0.1 + 0.7}s;
-        }
-      }
-    }
-  }
-  
-  #nav-close{
-    position:fixed;
-    top:40px;
-    right:40px;
-    font-size:1.5em;
-    cursor:pointer;
-    animation:fadeDown .5s forwards;
-    animation-delay:1.1s;
-    opacity:0;
-    color:#09203f;
-    transform:translateY(-20px);
-  }
-  
-  @keyframes fadeDown{
-    0%{
-      opacity:0;
-      transform:translateY(-20px);
-    }
-    100%{
-      opacity:1;
-      transform:translateY(0);
-    }
-  }
-}
-    </style>
-    <script>
-    let age = localStorage.getItem('age');
-    function tap(){
-      let aged = Number(localStorage.getItem('age')) + 1;
-      localStorage.setItem('age', aged);
-      console.log(aged);
-    }
-    </script>
-    <body>
-<button type="submit" onclick="click()">Tap!</button>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-            let tg = window.Telegram.WebApp;
-            const cloudStorage = window.Telegram.WebApp.CloudStorage;
-            let token = cloudStorage.getItem("token", (error, data) => {
-              console.log(!error && data ? data : error);
+    const kay = 'kay';
+
+    // Save or Update key:value
+    set.addEventListener('click', () =>{
+        if (input.value.length > 0) {
+            cloudStorage.setItem(kay, input.value, (error, result) => {
+                info.innerHTML = !error && result ? '<span class="green">Saved<span>' : error;
             });
-            tg.expand();
+        }else {
+            info.innerHTML = '<span class="red">The Input is empty<span>';
+        }
+    });
 
-            async function click(){
-              let save = Number(token) + 1;
-              cloudStorage.setItem("token", save, (error, result) => {
-                console.log(!error && result ? "Сохранено!" : error);
-              });
-              alert(token);
-            }
-        </script>
-    </body>
+    // Read key:value
+    get.addEventListener('click', () =>{
+        cloudStorage.getItem(kay, (error, data) => {
+            info.innerHTML = !error && data ? data : error;
+        });
+    });
+
+    // Delete key:value
+    del.addEventListener('click', () =>{
+        cloudStorage.removeItem(kay, (error, result) => {
+            info.innerHTML = !error && result ? '<span class="orange">Deleted<span>' : error;
+        });
+    });
+});
+</script>
+<body>
+    <label for="input">Input: </label><input id="input" type="text">
+    <div class="btn">
+        <button id="set">Set</button>
+        <button id="get">Get</button>
+        <button id="del">Del</button>
+    </div>
+    <div><b>Console:</b></div>
+    <div id="info" class="info">-</div>
+</body>
 </html>
