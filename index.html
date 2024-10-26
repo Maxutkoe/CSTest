@@ -34,7 +34,7 @@
 
     // Read key:value
     get.addEventListener('click', () =>{
-        cloudStorage.getItem(kay, (error, data) => {
+        cloudStorage.getKeys((error, data) => {
             info.innerHTML = !error && data ? data : error;
         });
     });
@@ -62,5 +62,6 @@
     </div>
     <div><b>Console:</b></div>
     <div id="info" class="info">-</div>
+    
 </body>
 </html>
